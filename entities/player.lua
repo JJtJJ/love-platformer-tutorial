@@ -27,7 +27,7 @@ function player:init(world, x, y)
 	self.world:add(self, self:getRect())
 end
 
-function player.collisionFilter(other)
+function player:collisionFilter(other)
 	local x, y, w, h = self.world:getRect(other)
 	local playerBottom = self.y + self.h
 	local otherBottom = y + h
@@ -48,6 +48,12 @@ function player:update(dt)
 	self.yVelocity = self.yVelocity + self.gravity * dt
 
 	if love.keyboard.isDown("left", "a") and self.xVelocity > -self.maxSpeed then
+		self.xVelocity = self.xVelocity - self.acc * dt
+	elseif love.keyboard.isDown("right", "d") and self.xVelocity < self.maxSpeed then
+		self.xVelocity = self.xVelocity + self.acc * dt
+	end
+
+	if love.keyboard.isDown("up", "w") and self.xVelocity > -self.maxSpeed then
 		if -self.yVelocity < self.jumpMaxSpeed and not self.hasReachedMax then
 			self.yVelocity = self.yVelocity - self.jumpAcc * dt
 		elseif math.abs(self.yVelocity) > self.jumpMaxSpeed then
@@ -73,9 +79,8 @@ function player:update(dt)
 	end
 end
 
-function player.draw()
+function player:draw()
 	love.graphics.draw(self.img, self.x, self.y)
 end
 
 return player
-

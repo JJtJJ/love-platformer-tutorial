@@ -12,7 +12,7 @@ function Ground:init(world, x, y, w, h)
 end
 
 function Ground:draw()
-	love.graphics.rectangle('fill', self.getRect())
+	love.graphics.rectangle('fill', self:getRect())
 end
 
 return Ground
